@@ -22,9 +22,12 @@ public class HazelcastNode implements Node {
 		Config config = new Config();
 		config.setClusterName(basicConfig.getClusterName());
 		HazelcastInstance hazelcastInstance = Hazelcast.newHazelcastInstance(config);
+		hazelcastInstance.getConfig().getMemberAttributeConfig().setAttribute(NodeAttribute.ID.toString(),
+				String.valueOf(basicConfig.getNodeId()));
 		Map<String, String> attributeMap = hazelcastInstance.getMap(basicConfig.getAttributeStorageName());
 		nodeAttributeService = new HazelcastAttributeService(attributeMap, basicConfig.getNodeId());
 		NodeDetails nodeDetails = new NodeDetails(nodeAttributeService);
+		nodeDetails.setId(basicConfig.getNodeId());
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {

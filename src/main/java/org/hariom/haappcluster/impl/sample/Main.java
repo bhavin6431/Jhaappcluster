@@ -16,10 +16,10 @@ public class Main {
 	private static final Logger LOG = LoggerFactory.getLogger(HazelcastAttributeService.class);
 
 	public static void main(String args[]) {
-		LOG.info("Starting node {}", System.getProperty("nodeId"));
+		short nodeId = Short.valueOf(System.getProperty("nodeId"));
+		LOG.info("Starting node {}", nodeId);
 		HazelcastNode node = new HazelcastNode();
-		BasicConfig config = new BasicConfig("haappcluster", (short) 9091, "attributeStorage",
-				Short.valueOf(System.getProperty("nodeId")));
+		BasicConfig config = new BasicConfig("haappcluster", (short) 9091, "attributeStorage", nodeId);
 		node.initialise(config);
 		node.logAllAttributes();
 	}
